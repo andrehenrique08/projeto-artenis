@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ARTEMIS — O Retorno da Humanidade à Lua</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;1,300&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --void: #010208;
+      --deep: #040b1a;
+      --navy: #071428;
+      --gold: #e8a030;
+      --gold-bright: #ffc94d;
+      --silver: #a8c0d6;
+      --white: #eef4ff;
+      --accent: #4db8ff;
+      --accent2: #ff6b35;
+      --glow: rgba(77,184,255,0.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--void);
+      color: var(--white);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── STARS ── */
+    #stars-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4rem;
+      background: linear-gradient(to bottom, rgba(1,2,8,0.95), transparent);
+      backdrop-filter: blur(2px);
+    }
+    .nav-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 900;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--silver);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold-bright); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      overflow: hidden;
+    }
+
+    .hero-moon {
+      position: absolute;
+      bottom: -10vw;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 75vw;
+      max-width: 900px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%,
+        #d4c9b0 0%, #b8a882 20%, #8a7a5a 45%, #4a3f28 70%, #1a150a 100%);
+      box-shadow:
+        inset -30px -20px 80px rgba(0,0,0,0.8),
+        inset 20px 15px 60px rgba(255,255,200,0.08),
+        0 0 120px rgba(200,180,120,0.12),
+        0 0 300px rgba(200,180,120,0.05);
+      animation: moonFloat 8s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    .moon-crater {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 30%, rgba(255,255,200,0.04), rgba(0,0,0,0.35));
+      box-shadow: inset 2px 2px 8px rgba(0,0,0,0.6);
+    }
+    .crater-1 { width: 12%; height: 12%; top: 20%; left: 25%; }
+    .crater-2 { width: 7%; height: 7%; top: 38%; left: 55%; }
+    .crater-3 { width: 9%; height: 9%; top: 55%; left: 30%; }
+    .crater-4 { width: 5%; height: 5%; top: 28%; left: 60%; }
+    .crater-5 { width: 15%; height: 15%; top: 45%; left: 15%; }
+
+    @keyframes moonFloat {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-18px); }
+    }
+
+    /* ARTEMIS LOGO */
+    .artemis-badge {
+      position: relative;
+      margin-bottom: 2rem;
+      animation: fadeSlideUp 1.2s ease both;
+    }
+    .artemis-badge svg {
+      width: 110px;
+      height: 110px;
+      filter: drop-shadow(0 0 30px rgba(232,160,48,0.6));
+    }
+
+    .hero-eyebrow {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.5em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+      animation: fadeSlideUp 1.2s 0.1s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 14vw, 13rem);
+      line-height: 0.9;
+      letter-spacing: 0.05em;
+      background: linear-gradient(135deg, var(--white) 0%, var(--gold-bright) 40%, var(--gold) 70%, #c87020 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeSlideUp 1.2s 0.2s ease both;
+      position: relative;
+    }
+
+    .hero-subtitle {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(0.7rem, 1.5vw, 1rem);
+      letter-spacing: 0.4em;
+      color: var(--silver);
+      text-transform: uppercase;
+      margin-top: 1rem;
+      animation: fadeSlideUp 1.2s 0.35s ease both;
+    }
+
+    .hero-cta {
+      margin-top: 3rem;
+      display: flex;
+      gap: 1.2rem;
+      animation: fadeSlideUp 1.2s 0.5s ease both;
+    }
+
+    .btn {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      padding: 1rem 2.5rem;
+      border-radius: 0;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--void);
+      border: none;
+    }
+    .btn-primary:hover {
+      background: var(--gold-bright);
+      box-shadow: 0 0 30px rgba(232,160,48,0.5);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--silver);
+      border: 1px solid rgba(168,192,214,0.3);
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 20px rgba(77,184,255,0.2);
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: fadeSlideUp 1.2s 0.8s ease both;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    .scroll-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      writing-mode: vertical-lr;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 8rem 6vw;
+    }
+
+    .section-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
+      color: var(--gold);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    /* ── MISSION SECTION ── */
+    .mission {
+      background: linear-gradient(135deg, var(--deep) 0%, var(--navy) 100%);
+      border-top: 1px solid rgba(232,160,48,0.1);
+      border-bottom: 1px solid rgba(232,160,48,0.1);
+    }
+
+    .mission-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .mission-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 5vw, 5.5rem);
+      line-height: 1;
+      color: var(--white);
+      margin-bottom: 2rem;
+    }
+    .mission-title span { color: var(--gold); }
+
+    .mission-text {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: var(--silver);
+      margin-bottom: 1.5rem;
+    }
+
+    .mission-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(168,192,214,0.15);
+    }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: var(--gold-bright);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--silver);
+      margin-top: 0.3rem;
+    }
+
+    /* VISUAL PANEL */
+    .mission-visual {
+      position: relative;
+    }
+    .mission-card {
+      background: linear-gradient(135deg, rgba(77,184,255,0.05), rgba(232,160,48,0.05));
+      border: 1px solid rgba(77,184,255,0.15);
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .mission-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 60px; height: 60px;
+      border-top: 2px solid var(--gold);
+      border-left: 2px solid var(--gold);
+    }
+    .mission-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 60px; height: 60px;
+      border-bottom: 2px solid var(--accent);
+      border-right: 2px solid var(--accent);
+    }
+
+    .mission-phases {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .phase-item {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+    .phase-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: rgba(232,160,48,0.2);
+      line-height: 1;
+      min-width: 3rem;
+    }
+    .phase-info h4 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+    .phase-info p {
+      font-size: 0.9rem;
+      color: var(--silver);
+      line-height: 1.6;
+    }
+
+    /* ── GALLERY ── */
+    .gallery {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .gallery-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+
+    .gallery-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 4vw, 4.5rem);
+      line-height: 1;
+    }
+
+    .gallery-count {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--silver);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto;
+      gap: 1.2rem;
+    }
+
+    .gallery-item {
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+    .gallery-item:nth-child(1) { grid-column: span 7; grid-row: span 2; }
+    .gallery-item:nth-child(2) { grid-column: span 5; }
+    .gallery-item:nth-child(3) { grid-column: span 5; }
+    .gallery-item:nth-child(4) { grid-column: span 4; }
+    .gallery-item:nth-child(5) { grid-column: span 4; }
+    .gallery-item:nth-child(6) { grid-column: span 4; }
+
+    .gallery-img {
+      width: 100%;
+      height: 100%;
+      min-height: 220px;
+      object-fit: cover;
+      display: block;
+      filter: saturate(0.7) brightness(0.85);
+      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  filter 0.5s ease;
+    }
+    .gallery-item:hover .gallery-img {
+      transform: scale(1.06);
+      filter: saturate(1) brightness(1);
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(1,2,8,0.9) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      display: flex;
+      align-items: flex-end;
+      padding: 1.5rem;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-overlay-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    /* PLACEHOLDER images (colored gradients matching NASA aesthetic) */
+    .img-placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .img-p1 { background: linear-gradient(135deg, #0a1628 0%, #1a3050 40%, #2a4a70 70%, #1a2a40 100%); }
+    .img-p2 { background: linear-gradient(135deg, #100808 0%, #301818 40%, #502828 70%, #201010 100%); }
+    .img-p3 { background: linear-gradient(135deg, #050510 0%, #0f0f25 40%, #1a1a40 70%, #0a0a20 100%); }
+    .img-p4 { background: linear-gradient(135deg, #0c1508 0%, #1e2f10 40%, #2e4518 70%, #181e08 100%); }
+    .img-p5 { background: linear-gradient(135deg, #10080c 0%, #281018 40%, #401828 70%, #200810 100%); }
+    .img-p6 { background: linear-gradient(135deg, #080c10 0%, #101820 40%, #182030 70%, #080c18 100%); }
+
+    .img-icon {
+      font-size: 3rem;
+      opacity: 0.3;
+    }
+    .img-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.8rem 1.2rem;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      color: rgba(168,192,214,0.6);
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .img-scene {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* SVG Scenes */
+    .scene-svg { width: 100%; height: 100%; }
+
+    /* ── TIMELINE ── */
+    .timeline-section {
+      background: var(--deep);
+    }
+    .timeline-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .timeline {
+      position: relative;
+      padding-left: 3rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--gold), var(--accent), var(--gold));
+    }
+    .timeline-item {
+      position: relative;
+      padding-bottom: 3.5rem;
+      padding-left: 2rem;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -3.2rem;
+      top: 0.35rem;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 15px rgba(232,160,48,0.6);
+    }
+    .tl-date {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .tl-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+    .tl-desc {
+      font-size: 0.95rem;
+      color: var(--silver);
+      line-height: 1.7;
+    }
+
+    /* ── CREW ── */
+    .crew-section { background: var(--void); }
+    .crew-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .crew-card {
+      background: linear-gradient(145deg, rgba(77,184,255,0.04), rgba(232,160,48,0.04));
+      border: 1px solid rgba(77,184,255,0.1);
+      padding: 2rem;
+      position: relative;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .crew-card:hover {
+      border-color: rgba(232,160,48,0.3);
+      transform: translateY(-4px);
+    }
+    .crew-avatar {
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy), var(--deep));
+      border: 2px solid rgba(232,160,48,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
+    }
+    .crew-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    .crew-role {
+      font-size: 0.8rem;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+    .crew-agency {
+      font-size: 0.75rem;
+      color: var(--silver);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      background: var(--deep);
+      border-top: 1px solid rgba(232,160,48,0.15);
+      padding: 4rem 6vw 3rem;
+    }
+    .footer-inner {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      letter-spacing: 0.1em;
+      background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .footer-tagline {
+      font-size: 0.85rem;
+      color: var(--silver);
+      margin-top: 0.5rem;
+    }
+    .footer-links { display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-links a {
+      font-size: 0.8rem;
+      color: var(--silver);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-links h5 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+    .footer-bottom {
+      max-width: 1300px;
+      margin: 3rem auto 0;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(168,192,214,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-bottom p {
+      font-size: 0.75rem;
+      color: rgba(168,192,214,0.4);
+    }
+    .nasa-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: rgba(168,192,214,0.4);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 5rem 5vw; }
+      .mission-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .gallery-grid {
+        grid-template-columns: repeat(6, 1fr);
+      }
+      .gallery-item:nth-child(1) { grid-column: span 6; }
+      .gallery-item:nth-child(2) { grid-column: span 3; }
+      .gallery-item:nth-child(3) { grid-column: span 3; }
+      .gallery-item:nth-child(4),
+      .gallery-item:nth-child(5),
+      .gallery-item:nth-child(6) { grid-column: span 2; }
+      .mission-stats { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* Horizontal rule decorative */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin: 4rem 0;
+      opacity: 0.3;
+    }
+    .divider-line { flex: 1; height: 1px; background: var(--silver); }
+    .divider-diamond {
+      width: 6px; height: 6px;
+      background: var(--gold);
+      transform: rotate(45deg);
+    }
+
+    /* HUD elements */
+    .hud-corner {
+      position: absolute;
+      width: 40px; height: 40px;
+    }
+    .hud-corner.tl { top: 1.5rem; left: 1.5rem; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+    .hud-corner.br { bottom: 1.5rem; right: 1.5rem; border-bottom: 1px solid var(--accent); border-right: 1px solid var(--accent); }
+
+    .telemetry-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 50;
+      background: rgba(4,11,26,0.9);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(232,160,48,0.2);
+      padding: 0.6rem 4rem;
+      display: flex;
+      gap: 3rem;
+      overflow: hidden;
+    }
+    .tele-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      white-space: nowrap;
+    }
+    .tele-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+    .tele-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.55rem;
+      color: var(--silver);
+    }
+    .tele-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #00ff88;
+      box-shadow: 0 0 6px #00ff88;
+      animation: blink 1.5s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    @media (max-width: 600px) {
+      .telemetry-bar { padding: 0.5rem 1rem; gap: 1.5rem; }
+      .tele-item:nth-child(n+4) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+
+<!-- NAVIGATION -->
+<nav>
+  <a class="nav-logo" href="#">ARTEMIS</a>
+  <ul class="nav-links">
+    <li><a href="#missao">Missão</a></li>
+    <li><a href="#galeria">Galeria</a></li>
+    <li><a href="#cronologia">Cronologia</a></li>
+    <li><a href="#tripulacao">Tripulação</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <!-- Moon -->
+  <div class="hero-moon">
+    <div class="moon-crater crater-1"></div>
+    <div class="moon-crater crater-2"></div>
+    <div class="moon-crater crater-3"></div>
+    <div class="moon-crater crater-4"></div>
+    <div class="moon-crater crater-5"></div>
+  </div>
+
+  <!-- Artemis Badge SVG Logo -->
+  <div class="artemis-badge">
+    <svg viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="55" cy="55" r="52" stroke="#e8a030" stroke-width="1.5" opacity="0.6"/>
+      <circle cx="55" cy="55" r="45" stroke="#e8a030" stroke-width="0.5" opacity="0.3"/>
+      <!-- Moon crescent -->
+      <path d="M55 20 C38 20 25 35 25 55 C25 75 38 90 55 90 C45 80 40 68 40 55 C40 42 45 30 55 20Z" fill="#e8a030" opacity="0.9"/>
+      <!-- Stars -->
+      <circle cx="72" cy="32" r="2" fill="#ffc94d"/>
+      <circle cx="80" cy="55" r="1.5" fill="#ffc94d" opacity="0.7"/>
+      <circle cx="75" cy="72" r="2" fill="#ffc94d"/>
+      <circle cx="65" cy="25" r="1" fill="#ffc94d" opacity="0.5"/>
+      <!-- A letter -->
+      <text x="55" y="62" text-anchor="middle" font-family="Bebas Neue, sans-serif" font-size="26" fill="#eef4ff" opacity="0.95">A</text>
+      <!-- Arc text simulation -->
+      <path id="topArc" d="M 15 55 A 40 40 0 0 1 95 55" fill="none"/>
+      <text font-family="Orbitron" font-size="5.5" fill="#a8c0d6" letter-spacing="3">
+        <textPath href="#topArc" startOffset="5%">NASA · ARTEMIS PROGRAM · LUNAR</textPath>
+      </text>
+    </svg>
+  </div>
+
+  <p class="hero-eyebrow">NASA · Programa Artemis · Retorno à Lua</p>
+
+  <h1 class="hero-title">ARTEMIS</h1>
+
+  <p class="hero-subtitle">A Humanidade Retorna à Lua &nbsp;·&nbsp; 2025 – 2030</p>
+
+  <div class="hero-cta">
+    <a href="#missao" class="btn btn-primary">Explorar Missão</a>
+    <a href="#galeria" class="btn btn-ghost">Ver Galeria</a>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Scroll</span>
+  </div>
+</section>
+
+<!-- MISSION -->
+<section class="mission" id="missao">
+  <div class="mission-grid">
+    <div class="mission-text-col reveal">
+      <div class="section-label">Sobre a Missão</div>
+      <h2 class="mission-title">O <span>Próximo</span> Grande Salto da Humanidade</h2>
+      <p class="mission-text">
+        O Programa Artemis da NASA tem como objetivo retornar astronautas à superfície lunar pela primeira vez desde 1972. Mais do que uma repetição histórica, Artemis representa uma nova era de exploração sustentável — desta vez, para ficar.
+      </p>
+      <p class="mission-text">
+        Pela primeira vez na história, uma mulher e uma pessoa de cor pisarão na Lua. A missão estabelecerá uma presença permanente no polo sul lunar, onde há evidências de gelo de água que poderá sustentar futuras colônias e servir de trampolim para Marte.
+      </p>
+
+      <div class="mission-stats">
+        <div>
+          <div class="stat-num">2025</div>
+          <div class="stat-label">1ª Tripulação</div>
+        </div>
+        <div>
+          <div class="stat-num">4</div>
+          <div class="stat-label">Astronautas</div>
+        </div>
+        <div>
+          <div class="stat-num">13</div>
+          <div class="stat-label">Países Parceiros</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-visual reveal">
+      <div class="mission-card">
+        <div class="hud-corner tl"></div>
+        <div class="hud-corner br"></div>
+        <div class="mission-phases">
+          <div class="phase-item">
+            <div class="phase-num">01</div>
+            <div class="phase-info">
+              <h4>Artemis I — Missão Não Tripulada</h4>
+              <p>Primeiro voo do foguete SLS com a cápsula Orion ao redor da Lua, validando todos os sistemas de suporte à vida (nov. 2022).</p>
+            </div>
+          </div>
+          <div class="phase-item">
+            <div class="phase-num">02</div>
+            <div class="phase-info">
+              <h4>Artemis II — Flyby Tripulado</h4>
+              <p>Quatro astronautas voarão ao redor da Lua sem pousar, a maior distância jamais percorrida por humanos (2025).</p>
+            </div>
+          </div>
+          <div class="phase-item">
+            <div class="phase-num">03</div>
+            <div class="phase-info">
+              <h4>Artemis III — Pouso Lunar</h4>
+              <p>Primeiro pouso humano no polo sul lunar. Dois astronautas descerão via módulo HLS da SpaceX (2026+).</p>
+            </div>
+          </div>
+          <div class="phase-item">
+            <div class="phase-num">04</div>
+            <div class="phase-info">
+              <h4>Gateway — Estação Lunar Orbital</h4>
+              <p>Construção da estação espacial lunar permanente para suportar missões de longa duração e exploração de Marte.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="galeria" style="padding: 8rem 6vw;">
+  <div class="gallery">
+    <div class="gallery-header reveal">
+      <div>
+        <div class="section-label">Arquivo Visual</div>
+        <h2 class="gallery-title">Galeria<br>Artemis</h2>
+      </div>
+      <div class="gallery-count">06 IMAGENS SELECIONADAS</div>
+    </div>
+
+    <div class="gallery-grid reveal">
+
+      <!-- Image 1 — SLS Launch (large) -->
+      <div class="gallery-item">
+        <div class="img-placeholder img-p1">
+          <svg class="scene-svg" viewBox="0 0 700 600" xmlns="http://www.w3.org/2000/svg">
+            <!-- Night sky -->
+            <rect width="700" height="600" fill="url(#sky1)"/>
+            <defs>
+              <radialGradient id="sky1" cx="50%" cy="100%" r="80%">
+                <stop offset="0%" stop-color="#1a2a50"/>
+                <stop offset="60%" stop-color="#0a1020"/>
+                <stop offset="100%" stop-color="#010208"/>
+              </radialGradient>
+              <radialGradient id="flame1" cx="50%" cy="0%" r="100%">
+                <stop offset="0%" stop-color="#fff5c0"/>
+                <stop offset="30%" stop-color="#ffaa00"/>
+                <stop offset="70%" stop-color="#ff4400"/>
+                <stop offset="100%" stop-color="transparent"/>
+              </radialGradient>
+            </defs>
+            <!-- Stars -->
+            <circle cx="100" cy="80" r="1.5" fill="white" opacity=".8"/>
+            <circle cx="200" cy="40" r="1" fill="white" opacity=".6"/>
+            <circle cx="500" cy="60" r="1.5" fill="white" opacity=".9"/>
+            <circle cx="600" cy="120" r="1" fill="white" opacity=".7"/>
+            <circle cx="50" cy="200" r="1" fill="white" opacity=".5"/>
+            <circle cx="650" cy="250" r="1.5" fill="white" opacity=".6"/>
+            <circle cx="150" cy="300" r="1" fill="white" opacity=".4"/>
+            <circle cx="580" cy="180" r="1" fill="white" opacity=".8"/>
+            <!-- Launchpad -->
+            <rect x="280" y="440" width="140" height="20" fill="#2a3550"/>
+            <rect x="340" y="380" width="20" height="60" fill="#3a4560"/>
+            <!-- SLS Rocket body -->
+            <rect x="320" y="120" width="60" height="280" rx="4" fill="#c8d4e8"/>
+            <!-- Core stage orange -->
+            <rect x="322" y="200" width="56" height="180" fill="#e8a030" opacity=".9"/>
+            <!-- Nose cone -->
+            <polygon points="350,60 320,140 380,140" fill="#e8e8f0"/>
+            <!-- Side boosters -->
+            <rect x="295" y="220" width="25" height="160" rx="3" fill="#d0d8e8"/>
+            <rect x="380" y="220" width="25" height="160" rx="3" fill="#d0d8e8"/>
+            <!-- Booster nose -->
+            <polygon points="307,210 295,230 320,230" fill="#e0e8f4"/>
+            <polygon points="392,210 380,230 405,230" fill="#e0e8f4"/>
+            <!-- Flame/Exhaust -->
+            <ellipse cx="350" cy="415" rx="55" ry="80" fill="url(#flame1)" opacity=".85"/>
+            <ellipse cx="307" cy="395" rx="20" ry="50" fill="url(#flame1)" opacity=".7"/>
+            <ellipse cx="392" cy="395" rx="20" ry="50" fill="url(#flame1)" opacity=".7"/>
+            <!-- NASA marking -->
+            <text x="330" y="320" font-family="Arial" font-size="10" fill="#1a2a50" font-weight="bold">NASA</text>
+            <!-- Ground glow -->
+            <ellipse cx="350" cy="460" rx="200" ry="30" fill="#ff6600" opacity=".15"/>
+            <!-- Smoke clouds -->
+            <ellipse cx="250" cy="450" rx="80" ry="40" fill="#888" opacity=".3"/>
+            <ellipse cx="450" cy="455" rx="90" ry="35" fill="#999" opacity=".25"/>
+            <ellipse cx="350" cy="465" rx="120" ry="30" fill="#aaa" opacity=".2"/>
+          </svg>
+          <div class="img-caption">SLS — Space Launch System · Decolagem</div>
+        </div>
+        <div class="gallery-overlay">
+          <div class="gallery-overlay-text">SLS — Lançamento do Foguete Artemis</div>
+        </div>
+      </div>
+
+      <!-- Image 2 — Moon Surface -->
+      <div class="gallery-item">
+        <div class="img-placeholder img-p3">
+          <svg class="scene-svg" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="moonSurf" cx="50%" cy="0%" r="100%">
+                <stop offset="0%" stop-color="#1a1520"/>
+                <stop offset="100%" stop-color="#050308"/>
+              </radialGradient>
+            </defs>
+            <rect width="400" height="280" fill="url(#moonSurf)"/>
+            <!-- Stars -->
+            <circle cx="50" cy="30" r="1" fill="white" opacity=".9"/>
+            <circle cx="120" cy="20" r="1.5" fill="white" opacity=".8"/>
+            <circle cx="300" cy="15" r="1" fill="white" opacity=".7"/>
+            <circle cx="380" cy="40" r="1.5" fill="white" opacity=".9"/>
+            <circle cx="200" cy="35" r="1" fill="white" opacity=".6"/>
+            <!-- Earth in background -->
+            <circle cx="340" cy="60" r="35" fill="#1a3a6a" opacity=".9"/>
+            <circle cx="340" cy="60" r="35" fill="none" stroke="#4488cc" stroke-width="0.5" opacity=".6"/>
+            <path d="M330 40 Q340 50 330 65 Q340 70 350 60 Q355 50 345 42Z" fill="#2a7a3a" opacity=".7"/>
+            <path d="M318 55 Q325 60 320 70 Q328 72 332 65Z" fill="#2a7a3a" opacity=".6"/>
+            <!-- Moon surface -->
+            <ellipse cx="200" cy="340" rx="300" ry="200" fill="#b8a870"/>
+            <ellipse cx="200" cy="340" rx="280" ry="185" fill="#c8b880"/>
+            <!-- Craters -->
+            <ellipse cx="80" cy="240" rx="50" ry="30" fill="#a89860" opacity=".8"/>
+            <ellipse cx="80" cy="240" rx="45" ry="26" fill="#b8a870"/>
+            <ellipse cx="300" cy="220" rx="35" ry="20" fill="#a89860" opacity=".7"/>
+            <ellipse cx="300" cy="220" rx="30" ry="16" fill="#b8a870"/>
+            <!-- Astronaut silhouette -->
+            <circle cx="200" cy="190" r="14" fill="#e8eef8"/>
+            <rect x="193" y="200" width="14" height="22" rx="3" fill="#d8e4f4"/>
+            <rect x="184" y="202" width="10" height="16" rx="3" fill="#d8e4f4"/>
+            <rect x="206" y="202" width="10" height="16" rx="3" fill="#d8e4f4"/>
+            <rect x="192" y="220" width="7" height="18" rx="2" fill="#d8e4f4"/>
+            <rect x="201" y="220" width="7" height="18" rx="2" fill="#d8e4f4"/>
+            <!-- American flag -->
+            <rect x="215" y="175" width="1.5" height="30" fill="#aaa"/>
+            <rect x="215" y="175" width="20" height="13" fill="#cc2222"/>
+            <rect x="215" y="179" width="20" height="2" fill="white"/>
+            <rect x="215" y="183" width="20" height="2" fill="white"/>
+            <rect x="215" y="175" width="8" height="6" fill="#2244aa"/>
+          </svg>
+          <div class="img-caption">Superfície Lunar · Polo Sul</div>
+        </div>
+        <div class="gallery-overlay">
+          <div class="gallery-overlay-text">Exploração do Polo Sul Lunar</div>
+        </div>
+      </div>
+
+      <!-- Image 3 — Orion Capsule -->
+      <div class="gallery-item">
+        <div class="img-placeholder img-p2">
+          <svg class="scene-svg" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="space1" cx="50%" cy="50%" r="80%">
+                <stop offset="0%" stop-color="#0a0510"/>
+                <stop offset="100%" stop-color="#010205"/>
+              </radialGradient>
+            </defs>
+            <rect width="400" height="280" fill="url(#space1)"/>
+            <!-- Stars -->
+            <circle cx="30" cy="50" r="1.5" fill="white" opacity=".9"/>
+            <circle cx="80" cy="20" r="1" fill="white" opacity=".7"/>
+            <circle cx="350" cy="30" r="1.5" fill="white" opacity=".8"/>
+            <circle cx="370" cy="100" r="1" fill="white" opacity=".6"/>
+            <circle cx="15" cy="150" r="1" fill="white" opacity=".5"/>
+            <circle cx="390" cy="200" r="1.5" fill="white" opacity=".7"/>
+            <!-- Moon partial -->
+            <circle cx="50" cy="230" r="100" fill="#c0b070" opacity=".6"/>
+            <circle cx="50" cy="230" r="98" fill="#d0c080" opacity=".4"/>
+            <!-- Orion Capsule -->
+            <!-- Service module -->
+            <rect x="170" y="155" width="60" height="70" rx="5" fill="#8090a0"/>
+            <!-- Solar panels -->
+            <rect x="80" y="170" width="90" height="18" rx="2" fill="#2244aa"/>
+            <rect x="80" y="170" width="90" height="6" fill="#3355bb" opacity=".7"/>
+            <rect x="80" y="176" width="90" height="6" fill="#2244aa"/>
+            <rect x="230" y="170" width="90" height="18" rx="2" fill="#2244aa"/>
+            <rect x="230" y="170" width="90" height="6" fill="#3355bb" opacity=".7"/>
+            <rect x="230" y="176" width="90" height="6" fill="#2244aa"/>
+            <!-- CM (crew module) cone -->
+            <polygon points="200,80 165,160 235,160" fill="#c8c8d8"/>
+            <polygon points="200,80 165,160 200,160" fill="#b8b8c8"/>
+            <!-- Windows -->
+            <circle cx="190" cy="130" r="7" fill="#88aacc" opacity=".8"/>
+            <circle cx="210" cy="130" r="7" fill="#88aacc" opacity=".8"/>
+            <!-- Heat shield -->
+            <ellipse cx="200" cy="225" rx="32" ry="8" fill="#c04020"/>
+            <!-- NASA text -->
+            <text x="175" y="195" font-family="Arial" font-size="9" fill="white" opacity=".8">ORION</text>
+            <!-- Engine glow -->
+            <ellipse cx="200" cy="230" rx="15" ry="8" fill="#ff8844" opacity=".4"/>
+          </svg>
+          <div class="img-caption">Cápsula Orion · Módulo Tripulado</div>
+        </div>
+        <div class="gallery-overlay">
+          <div class="gallery-overlay-text">Cápsula Orion em Órbita Lunar</div>
+        </div>
+      </div>
+
+      <!-- Image 4 — Spacesuit EVA -->
+      <div class="gallery-item">
+        <div class="img-placeholder img-p4">
+          <svg class="scene-svg" viewBox="0 0 300 250" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="bg4" cx="30%" cy="70%" r="80%">
+                <stop offset="0%" stop-color="#151f10"/>
+                <stop offset="100%" stop-color="#080c05"/>
+              </radialGradient>
+            </defs>
+            <rect width="300" height="250" fill="url(#bg4)"/>
+            <!-- Stars -->
+            <circle cx="20" cy="20" r="1" fill="white" opacity=".8"/>
+            <circle cx="280" cy="15" r="1.5" fill="white" opacity=".9"/>
+            <circle cx="250" cy="80" r="1" fill="white" opacity=".6"/>
+            <circle cx="40" cy="100" r="1" fill="white" opacity=".7"/>
+            <!-- Earth glow behind -->
+            <circle cx="270" cy="200" r="90" fill="#1a3060" opacity=".5"/>
+            <!-- Astronaut suit -->
+            <!-- Helmet -->
+            <circle cx="150" cy="70" r="42" fill="#e8ecf8"/>
+            <circle cx="150" cy="70" r="36" fill="#88aacc" opacity=".7"/>
+            <circle cx="150" cy="70" r="36" fill="none" stroke="#c0c8d8" stroke-width="3"/>
+            <!-- Visor reflection -->
+            <ellipse cx="140" cy="62" rx="15" ry="10" fill="white" opacity=".15" transform="rotate(-20,140,62)"/>
+            <!-- Suit body -->
+            <rect x="112" y="108" width="76" height="90" rx="15" fill="#e0e4f0"/>
+            <!-- Chest pack -->
+            <rect x="125" y="118" width="50" height="35" rx="5" fill="#c8cce0"/>
+            <!-- Controls on chest -->
+            <circle cx="140" cy="130" r="5" fill="#4488ff"/>
+            <circle cx="155" cy="130" r="5" fill="#ff4444"/>
+            <circle cx="148" cy="143" r="4" fill="#44cc44"/>
+            <!-- Arms -->
+            <rect x="85" y="112" width="28" height="65" rx="12" fill="#d8dcee"/>
+            <rect x="187" y="112" width="28" height="65" rx="12" fill="#d8dcee"/>
+            <!-- Gloves -->
+            <ellipse cx="99" cy="182" rx="14" ry="9" fill="#c0c4d8"/>
+            <ellipse cx="201" cy="182" rx="14" ry="9" fill="#c0c4d8"/>
+            <!-- Legs -->
+            <rect x="120" y="194" width="25" height="45" rx="8" fill="#d8dcee"/>
+            <rect x="155" y="194" width="25" height="45" rx="8" fill="#d8dcee"/>
+            <!-- Boots -->
+            <ellipse cx="133" cy="240" rx="16" ry="8" fill="#b0b4c8"/>
+            <ellipse cx="167" cy="240" rx="16" ry="8" fill="#b0b4c8"/>
+            <!-- NASA patch -->
+            <circle cx="150" cy="160" r="8" fill="#1122aa" opacity=".8"/>
+            <text x="147" y="164" font-family="Arial" font-size="6" fill="white">A</text>
+          </svg>
+          <div class="img-caption">Traje Espacial xEMU · Próxima Geração</div>
+        </div>
+        <div class="gallery-overlay">
+          <div class="gallery-overlay-text">Traje xEMU para Atividade Extravehicular</div>
+        </div>
+      </div>
+
+      <!-- Image 5 — Gateway Station -->
+      <div class="gallery-item">
+        <div class="img-placeholder img-p5">
+          <svg class="scene-svg" viewBox="0 0 300 250" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="bg5" cx="70%" cy="30%" r="80%">
+                <stop offset="0%" stop-color="#200815"/>
+                <stop offset="100%" stop-color="#060205"/>
+              </radialGradient>
+            </defs>
+            <rect width="300" height="250" fill="url(#bg5)"/>
+            <!-- Stars -->
+            <circle cx="30" cy="30" r="1.5" fill="white" opacity=".9"/>
+            <circle cx="260" cy="20" r="1" fill="white" opacity=".7"/>
+            <circle cx="280" cy="80" r="1.5" fill="white" opacity=".8"/>
+            <circle cx="10" cy="180" r="1" fill="white" opacity=".6"/>
+            <circle cx="100" cy="15" r="1" fill="white" opacity=".5"/>
+            <!-- Moon partial in background -->
+            <circle cx="230" cy="200" r="80" fill="#c0b070" opacity=".3"/>
+            <!-- Gateway Station body -->
+            <!-- Central hub -->
+            <rect x="125" y="100" width="50" height="50" rx="6" fill="#9098b0"/>
+            <!-- Habitation module -->
+            <rect x="60" y="110" width="65" height="32" rx="8" fill="#8090a8"/>
+            <rect x="175" y="110" width="65" height="32" rx="8" fill="#8090a8"/>
+            <!-- Solar arrays - large -->
+            <rect x="10" y="90" width="50" height="55" rx="2" fill="#1a3a88"/>
+            <rect x="10" y="90" width="50" height="14" fill="#2244aa"/>
+            <rect x="10" y="104" width="50" height="14" fill="#1a3a88"/>
+            <rect x="10" y="118" width="50" height="14" fill="#2244aa"/>
+            <rect x="10" y="132" width="50" height="13" fill="#1a3a88"/>
+            <rect x="240" y="90" width="50" height="55" rx="2" fill="#1a3a88"/>
+            <rect x="240" y="90" width="50" height="14" fill="#2244aa"/>
+            <rect x="240" y="104" width="50" height="14" fill="#1a3a88"/>
+            <rect x="240" y="118" width="50" height="14" fill="#2244aa"/>
+            <rect x="240" y="132" width="50" height="13" fill="#1a3a88"/>
+            <!-- PPE -->
+            <rect x="140" y="60" width="20" height="42" rx="5" fill="#a0a8c0"/>
+            <!-- Docking ports -->
+            <rect x="148" y="145" width="14" height="18" rx="3" fill="#7880a0"/>
+            <!-- Communications -->
+            <line x1="150" y1="60" x2="130" y2="40" stroke="#8090b0" stroke-width="1.5"/>
+            <circle cx="126" cy="37" r="5" fill="#9090a0" opacity=".7"/>
+            <!-- Windows -->
+            <circle cx="105" cy="126" r="5" fill="#88aacc" opacity=".8"/>
+            <circle cx="195" cy="126" r="5" fill="#88aacc" opacity=".8"/>
+            <circle cx="150" cy="126" r="4" fill="#88aacc" opacity=".6"/>
+            <!-- Text -->
+            <text x="107" y="200" font-family="Arial" font-size="8" fill="#a0a8c0" opacity=".6" letter-spacing="2">GATEWAY</text>
+          </svg>
+          <div class="img-caption">Estação Gateway · Órbita Lunar</div>
+        </div>
+        <div class="gallery-overlay">
+          <div class="gallery-overlay-text">Lunar Gateway — Base Orbital Permanente</div>
+        </div>
+      </div>
+
+      <!-- Image 6 — Lunar Terrain Vehicle -->
+      <div class="gallery-item">
+        <div class="img-placeholder img-p6">
+          <svg class="scene-svg" viewBox="0 0 300 250" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="bg6" cx="50%" cy="100%" r="80%">
+                <stop offset="0%" stop-color="#1a2030"/>
+                <stop offset="100%" stop-color="#04080f"/>
+              </radialGradient>
+            </defs>
+            <rect width="300" height="250" fill="url(#bg6)"/>
+            <!-- Stars and Earth -->
+            <circle cx="40" cy="30" r="1" fill="white" opacity=".8"/>
+            <circle cx="270" cy="25" r="1.5" fill="white" opacity=".9"/>
+            <circle cx="20" cy="120" r="1" fill="white" opacity=".6"/>
+            <circle cx="255" cy="100" r="1" fill="white" opacity=".7"/>
+            <!-- Earth -->
+            <circle cx="260" cy="45" r="28" fill="#1a3060" opacity=".85"/>
+            <path d="M250 25 Q258 33 250 45 Q258 50 265 42 Q270 32 262 25Z" fill="#2a7a3a" opacity=".7"/>
+            <circle cx="260" cy="45" r="28" fill="none" stroke="#4488cc" stroke-width="0.5" opacity=".4"/>
+            <!-- Moon surface -->
+            <ellipse cx="150" cy="340" rx="350" ry="200" fill="#b0a865"/>
+            <ellipse cx="150" cy="340" rx="330" ry="185" fill="#c0b875"/>
+            <!-- Small crater -->
+            <ellipse cx="60" cy="205" rx="30" ry="15" fill="#a09855" opacity=".8"/>
+            <ellipse cx="240" cy="215" rx="20" ry="10" fill="#a09855" opacity=".7"/>
+            <!-- Lunar Terrain Vehicle (LTV) -->
+            <!-- Wheels -->
+            <circle cx="80" cy="190" r="18" fill="#404850" stroke="#606870" stroke-width="2"/>
+            <circle cx="80" cy="190" r="10" fill="#505860"/>
+            <circle cx="220" cy="190" r="18" fill="#404850" stroke="#606870" stroke-width="2"/>
+            <circle cx="220" cy="190" r="10" fill="#505860"/>
+            <!-- Chassis -->
+            <rect x="65" y="162" width="170" height="32" rx="6" fill="#b8c0d0"/>
+            <!-- Cabin -->
+            <rect x="90" y="135" width="100" height="32" rx="8" fill="#c8ccd8"/>
+            <!-- Windows -->
+            <rect x="98" y="140" width="35" height="20" rx="4" fill="#6688aa" opacity=".9"/>
+            <rect x="140" y="140" width="40" height="20" rx="4" fill="#6688aa" opacity=".9"/>
+            <!-- Solar panel on top -->
+            <rect x="85" y="122" width="110" height="16" rx="2" fill="#1a3a88"/>
+            <rect x="85" y="122" width="110" height="5" fill="#2244aa"/>
+            <rect x="85" y="127" width="110" height="5" fill="#1a3a88"/>
+            <rect x="85" y="132" width="110" height="6" fill="#2244aa"/>
+            <!-- Antenna -->
+            <line x1="180" y1="122" x2="190" y2="100" stroke="#9090a0" stroke-width="1.5"/>
+            <circle cx="191" cy="98" r="3" fill="#a0a0b0" opacity=".8"/>
+            <!-- NASA/Artemis markings -->
+            <text x="103" y="160" font-family="Arial" font-size="7" fill="#1122aa" font-weight="bold">NASA</text>
+            <!-- Tire tracks -->
+            <line x1="20" y1="210" x2="80" y2="210" stroke="#9a9265" stroke-width="2" stroke-dasharray="4,3"/>
+            <line x1="20" y1="215" x2="80" y2="215" stroke="#9a9265" stroke-width="2" stroke-dasharray="4,3"/>
+          </svg>
+          <div class="img-caption">LTV — Veículo de Terreno Lunar</div>
+        </div>
+        <div class="gallery-overlay">
+          <div class="gallery-overlay-text">Veículo de Terreno Lunar — Artemis IV+</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline-section" id="cronologia">
+  <div class="section-label reveal">Cronologia</div>
+  <h2 class="gallery-title reveal" style="margin-bottom:4rem; max-width:900px; margin-left:auto; margin-right:auto;">Marcos da<br>Missão Artemis</h2>
+
+  <div class="timeline-inner">
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="tl-date">Novembro 2022</div>
+        <div class="tl-title">Artemis I — Missão Não Tripulada</div>
+        <p class="tl-desc">O foguete SLS levou a cápsula Orion ao redor da Lua em uma missão não tripulada de 25,5 dias. A cápsula percorreu mais de 2,25 milhões de km e validou todos os sistemas críticos para futuras missões tripuladas.</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="tl-date">2025</div>
+        <div class="tl-title">Artemis II — Primeiro Voo Tripulado ao Redor da Lua</div>
+        <p class="tl-desc">Quatro astronautas — incluindo a primeira mulher e o primeiro astronauta canadense — realizarão o voo de flyby lunar, percorrendo a maior distância já viajada por seres humanos desde as missões Apollo.</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="tl-date">2026+</div>
+        <div class="tl-title">Artemis III — O Grande Retorno ao Solo Lunar</div>
+        <p class="tl-desc">Dois astronautas pousar no polo sul lunar pelo módulo de pouso HLS da SpaceX (Starship). Primeira vez que humanos pisam na Lua desde Apollo 17, em dezembro de 1972 — um intervalo de mais de 50 anos.</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="tl-date">2027–2028</div>
+        <div class="tl-title">Artemis IV — Construção do Gateway</div>
+        <p class="tl-desc">Início da montagem da estação espacial Gateway em órbita lunar. O módulo de habitação I-HAB, contribuição da ESA e JAXA, será conectado ao Power and Propulsion Element (PPE).</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="tl-date">2030+</div>
+        <div class="tl-title">Base Lunar Permanente — Rumo a Marte</div>
+        <p class="tl-desc">Estabelecimento de uma presença humana sustentável na Lua, com missões de longa duração. O conhecimento e tecnologia acumulados servirão como base para a primeira missão tripulada a Marte.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CREW -->
+<section class="crew-section" id="tripulacao">
+  <div class="section-label reveal">Tripulação</div>
+  <h2 class="gallery-title reveal" style="margin-bottom:1rem;">Astronautas<br>Artemis II</h2>
+  <p class="mission-text reveal" style="max-width:600px; margin-bottom:3rem;">Os quatro pioneiros selecionados para o primeiro voo tripulado ao redor da Lua desde Apollo 17.</p>
+
+  <div class="crew-grid">
+    <div class="crew-card reveal">
+      <div class="crew-avatar">👨‍🚀</div>
+      <div class="crew-name">Reid Wiseman</div>
+      <div class="crew-role">Comandante</div>
+      <div class="crew-agency">NASA · USN Capitão</div>
+    </div>
+    <div class="crew-card reveal">
+      <div class="crew-avatar">👩‍🚀</div>
+      <div class="crew-name">Christina Koch</div>
+      <div class="crew-role">Especialista de Missão</div>
+      <div class="crew-agency">NASA · 1ª Mulher na Lua</div>
+    </div>
+    <div class="crew-card reveal">
+      <div class="crew-avatar">👨‍🚀</div>
+      <div class="crew-name">Victor Glover</div>
+      <div class="crew-role">Piloto</div>
+      <div class="crew-agency">NASA · USN Capitão</div>
+    </div>
+    <div class="crew-card reveal">
+      <div class="crew-avatar">👨‍🚀</div>
+      <div class="crew-name">Jeremy Hansen</div>
+      <div class="crew-role">Especialista de Missão</div>
+      <div class="crew-agency">CSA · Canadá</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">ARTEMIS</div>
+      <div class="footer-tagline">O Retorno da Humanidade à Lua</div>
+    </div>
+    <div class="footer-links">
+      <h5>Missão</h5>
+      <a href="#missao">Sobre Artemis</a>
+      <a href="#cronologia">Cronologia</a>
+      <a href="#tripulacao">Tripulação</a>
+      <a href="#galeria">Galeria</a>
+    </div>
+    <div class="footer-links">
+      <h5>Recursos</h5>
+      <a href="https://www.nasa.gov/artemis" target="_blank">NASA Artemis</a>
+      <a href="https://www.nasa.gov/humans-in-space/orion-spacecraft/" target="_blank">Cápsula Orion</a>
+      <a href="https://www.nasa.gov/gateway" target="_blank">Lunar Gateway</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Projeto Escolar Missão Artemis · Desenvolvido com Flask &amp; Python</p>
+    <div class="nasa-badge">
+      <div class="tele-dot"></div>
+      <span>SISTEMA OPERACIONAL</span>
+    </div>
+  </div>
+</footer>
+
+<!-- TELEMETRY BAR -->
+<div class="telemetry-bar">
+  <div class="tele-item">
+    <div class="tele-dot"></div>
+    <span class="tele-label">Status</span>
+    <span class="tele-value">ONLINE</span>
+  </div>
+  <div class="tele-item">
+    <span class="tele-label">Missão</span>
+    <span class="tele-value" id="tele-mission">ARTEMIS II</span>
+  </div>
+  <div class="tele-item">
+    <span class="tele-label">Data Lançamento</span>
+    <span class="tele-value">2025</span>
+  </div>
+  <div class="tele-item">
+    <span class="tele-label">Distância Lua–Terra</span>
+    <span class="tele-value" id="tele-dist">384,400 KM</span>
+  </div>
+  <div class="tele-item">
+    <span class="tele-label">Velocidade Orbital</span>
+    <span class="tele-value">1.022 KM/S</span>
+  </div>
+  <div class="tele-item">
+    <span class="tele-label">Temp. Lunar</span>
+    <span class="tele-value">-173°C / +127°C</span>
+  </div>
+</div>
+
+<script>
+  // ── STARS CANVAS ──
+  const canvas = document.getElementById('stars-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  const stars = Array.from({ length: 280 }, () => ({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    r: Math.random() * 1.5 + 0.2,
+    alpha: Math.random(),
+    speed: Math.random() * 0.005 + 0.001,
+    phase: Math.random() * Math.PI * 2
+  }));
+
+  function drawStars(t) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+      const a = 0.3 + 0.7 * Math.abs(Math.sin(s.phase + t * s.speed));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(220,235,255,${a})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+  }
+  drawStars(0);
+
+  // ── REVEAL ON SCROLL ──
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // ── TELEMETRY COUNTER ──
+  let dist = 384400;
+  setInterval(() => {
+    dist += Math.round((Math.random() - 0.49) * 5);
+    document.getElementById('tele-dist').textContent = dist.toLocaleString('pt-BR') + ' KM';
+  }, 1800);
+</script>
+
+</body>
+</html>
